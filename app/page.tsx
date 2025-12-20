@@ -124,39 +124,39 @@ export default function Page() {
       | Difficulty
       | undefined;
     const action: TxAction = difficultyLabel ? (`select-${difficultyLabel}` as TxAction) : null;
-    return runWrite(action, () =>
-      writeContractAsync({
+    return runWrite(action, async () => {
+      await writeContractAsync({
         address: GAME_CONTRACT_ADDRESS,
         abi: GAME_CONTRACT_ABI,
         functionName: "selectMode",
         args: [difficultyValue, nonce],
         chainId: base.id
-      })
-    );
+      });
+    });
   };
 
   const writePlayAgain = async (nonce: bigint) => {
-    return runWrite("play-again", () =>
-      writeContractAsync({
+    return runWrite("play-again", async () => {
+      await writeContractAsync({
         address: GAME_CONTRACT_ADDRESS,
         abi: GAME_CONTRACT_ABI,
         functionName: "playAgain",
         args: [nonce],
         chainId: base.id
-      })
-    );
+      });
+    });
   };
 
   const writeChangeDifficulty = async (nonce: bigint) => {
-    return runWrite("change-difficulty", () =>
-      writeContractAsync({
+    return runWrite("change-difficulty", async () => {
+      await writeContractAsync({
         address: GAME_CONTRACT_ADDRESS,
         abi: GAME_CONTRACT_ABI,
         functionName: "changeDifficulty",
         args: [nonce],
         chainId: base.id
-      })
-    );
+      });
+    });
   };
 
   const persistHighScore = (next: number) => {
