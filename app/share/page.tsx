@@ -8,6 +8,19 @@ const OG_DESCRIPTION = "A quick higher-or-lower game using search results on Far
 const OG_IMAGE = "https://higherlow.vercel.app/manifest/og.png";
 const OG_URL = "https://higherlow.vercel.app/share";
 const FORWARDED_KEYS = ["castHash", "castFid", "viewerFid"];
+const FC_EMBED_BASE = {
+  version: "1",
+  imageUrl: "https://higherlow.vercel.app/manifest/image.png",
+  button: {
+    title: "Play",
+    action: {
+      type: "launch_frame",
+      name: "Higher / Lower",
+      splashImageUrl: "https://higherlow.vercel.app/manifest/splash.png",
+      splashBackgroundColor: "#0b0b0b"
+    }
+  }
+} as const;
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -20,6 +33,7 @@ export function generateMetadata({ searchParams }: { searchParams: SearchParams 
 
   const castLabel = castHash ? `${castHash.slice(0, 8)}…` : castFid ? `Cast from fid ${castFid}` : null;
   const description = castLabel ? `${castLabel} shared on Higher or Lower.` : OG_DESCRIPTION;
+  const embed = JSON.stringify(FC_EMBED_BASE);
 
   return {
     title: OG_TITLE,
@@ -37,6 +51,10 @@ export function generateMetadata({ searchParams }: { searchParams: SearchParams 
       title: OG_TITLE,
       description,
       images: [OG_IMAGE]
+    },
+    other: {
+      "fc:miniapp": embed,
+      "fc:frame": embed
     }
   };
 }

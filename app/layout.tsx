@@ -9,6 +9,21 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-display"
 });
 
+const FC_EMBED_ROOT = JSON.stringify({
+  version: "1",
+  imageUrl: "https://higherlow.vercel.app/manifest/image.png",
+  button: {
+    title: "Play",
+    action: {
+      type: "launch_frame",
+      name: "Higher / Lower",
+      url: "https://higherlow.vercel.app/",
+      splashImageUrl: "https://higherlow.vercel.app/manifest/splash.png",
+      splashBackgroundColor: "#0b0b0b"
+    }
+  }
+});
+
 export const metadata: Metadata = {
   title: "Higher or Lower",
   description: "A quick higher-or-lower game using search results on Farcaster.",
@@ -29,6 +44,10 @@ export const metadata: Metadata = {
     title: "Higher or Lower",
     description: "A quick higher-or-lower game using search results on Farcaster.",
     images: ["https://higherlow.vercel.app/manifest/og.png"]
+  },
+  other: {
+    "fc:miniapp": FC_EMBED_ROOT,
+    "fc:frame": FC_EMBED_ROOT
   }
 };
 
