@@ -9,7 +9,7 @@
     "name": "Higher / Lower",
     "description": "Higher or Lower search game for Farcaster.",
     "homeUrl": "https://higherlow.vercel.app",
-    "iconUrl": "https://higherlow.vercel.app/icon.svg",
+    "iconUrl": "https://higherlow.vercel.app/higherlow.jpg",
     "splashImageUrl": "https://higherlow.vercel.app/higherlow.jpg",
     "splashBackgroundColor": "#0b0f19"
   }
