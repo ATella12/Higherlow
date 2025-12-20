@@ -60,6 +60,14 @@ const normalizeChainId = (chainId: string | number | null | undefined): string |
   return chainId;
 };
 
+const safeGetChainId = (config: Config): number | null => {
+  try {
+    return getChainId(config);
+  } catch {
+    return null;
+  }
+};
+
 async function getConnectorProvider(config: Config): Promise<Eip1193Provider | null> {
   try {
     const client = await getConnectorClient(config);
@@ -126,18 +134,13 @@ export async function ensureBaseChainWithProvider(provider: Eip1193Provider) {
 
 export async function ensureBaseChain(config: Config): Promise<void> {
   // getChainId is synchronous in wagmi v2; guard in try/catch to avoid hard failures
-  let current: number | null = null;
-  try {
-    current = getChainId(config);
-  } catch {
-    current = null;
-  }
+  const current: number | null = safeGetChainId(config);
   debugLog("current chain", current, "target", base.id, "connector", getAccount(config).connector?.name);
   if (current === base.id) return;
 
   try {
     await switchChain(config, { chainId: base.id });
-    const post = await getChainId(config).catch(() => null);
+    const post = safeGetChainId(config);
     debugLog("switchChain result", post);
     if (post === base.id) return;
   } catch (err: any) {
