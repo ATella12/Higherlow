@@ -1,54 +1,56 @@
 "use client";
 
-type MaybeWindow = typeof window | undefined;
-
-const getStorage = () => {
-  if (typeof window === "undefined") return null as MaybeWindow;
-  return window;
+const getLocalStorage = (): Storage | null => {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
 };
 
 const asyncStorage = {
   async getItem(key: string): Promise<string | null> {
-    const w = getStorage();
-    if (!w) return null;
+    const storage = getLocalStorage();
+    if (!storage) return null;
     try {
-      return w.localStorage.getItem(key);
+      return storage.getItem(key);
     } catch {
       return null;
     }
   },
   async setItem(key: string, value: string): Promise<void> {
-    const w = getStorage();
-    if (!w) return;
+    const storage = getLocalStorage();
+    if (!storage) return;
     try {
-      w.localStorage.setItem(key, value);
+      storage.setItem(key, value);
     } catch {
       // ignore
     }
   },
   async removeItem(key: string): Promise<void> {
-    const w = getStorage();
-    if (!w) return;
+    const storage = getLocalStorage();
+    if (!storage) return;
     try {
-      w.localStorage.removeItem(key);
+      storage.removeItem(key);
     } catch {
       // ignore
     }
   },
   async clear(): Promise<void> {
-    const w = getStorage();
-    if (!w) return;
+    const storage = getLocalStorage();
+    if (!storage) return;
     try {
-      w.localStorage.clear();
+      storage.clear();
     } catch {
       // ignore
     }
   },
   async getAllKeys(): Promise<string[]> {
-    const w = getStorage();
-    if (!w) return [];
+    const storage = getLocalStorage();
+    if (!storage) return [];
     try {
-      return Array.from({ length: w.localStorage.length }, (_, i) => w.localStorage.key(i) || "").filter(Boolean);
+      return Array.from({ length: storage.length }, (_, i) => storage.key(i) || "").filter(Boolean);
     } catch {
       return [];
     }
