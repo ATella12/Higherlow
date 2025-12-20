@@ -3,6 +3,7 @@
 import { sdk } from "@farcaster/miniapp-sdk";
 import { ensureBaseChainWithProvider } from "./ensureBaseChain";
 import { storage } from "./storage";
+import type { EIP1193Provider as ViemEip1193Provider } from "viem";
 
 export type WalletEnvironment = "farcaster" | "injected" | "none";
 export type ConnectorType = "farcaster" | "injected" | null;
@@ -13,6 +14,22 @@ export interface Eip1193Provider {
   on?: (event: string, listener: (...args: any[]) => void) => void;
   removeListener?: (event: string, listener: (...args: any[]) => void) => void;
   disconnect?: () => Promise<void> | void;
+}
+
+function adaptToEip1193(provider: any): Eip1193Provider {
+  const viemLike: ViemEip1193Provider = {
+    request: (args: any) => provider.request(args),
+    on: provider.on
+      ? (event: string, listener: (...args: any[]) => void) => provider.on(event as any, listener as any)
+      : undefined,
+    removeListener: provider.removeListener
+      ? (event: string, listener: (...args: any[]) => void) =>
+          provider.removeListener(event as any, listener as any)
+      : provider.off
+        ? (event: string, listener: (...args: any[]) => void) => provider.off(event as any, listener as any)
+        : undefined
+  };
+  return viemLike as unknown as Eip1193Provider;
 }
 
 export interface WalletState {
@@ -62,7 +79,7 @@ export async function getFarcasterProvider(): Promise<Eip1193Provider | null> {
   if (!cachedFarcasterProvider) {
     cachedFarcasterProvider = sdk.wallet
       .getEthereumProvider()
-      .then((provider) => provider ?? null)
+      .then((provider) => (provider ? adaptToEip1193(provider) : null))
       .catch(() => null);
   }
   return cachedFarcasterProvider;
