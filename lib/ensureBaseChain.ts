@@ -125,7 +125,13 @@ export async function ensureBaseChainWithProvider(provider: Eip1193Provider) {
 }
 
 export async function ensureBaseChain(config: Config): Promise<void> {
-  const current = await getChainId(config).catch(() => null);
+  // getChainId is synchronous in wagmi v2; guard in try/catch to avoid hard failures
+  let current: number | null = null;
+  try {
+    current = getChainId(config);
+  } catch {
+    current = null;
+  }
   debugLog("current chain", current, "target", base.id, "connector", getAccount(config).connector?.name);
   if (current === base.id) return;
 
