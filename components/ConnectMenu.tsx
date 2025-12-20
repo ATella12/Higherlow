@@ -51,6 +51,7 @@ export function ConnectMenu() {
   }, [connectAsync, injectedConnector, isConnected, isInFarcaster, status]);
 
   const handleConnect = () => {
+    if (isConnected) return;
     const preferred =
       farcasterConnector && (farcasterConnector as any).ready ? farcasterConnector : injectedConnector;
     if (!preferred) return;

@@ -2,6 +2,7 @@
 
 import { sdk } from "@farcaster/miniapp-sdk";
 import { ensureBaseChainWithProvider } from "./ensureBaseChain";
+import { storage } from "./storage";
 
 export type WalletEnvironment = "farcaster" | "injected" | "none";
 export type ConnectorType = "farcaster" | "injected" | null;
@@ -43,15 +44,15 @@ export function normalizeChainId(chainId: string | number | null): string | null
 export function persistConnector(type: ConnectorType) {
   if (typeof window === "undefined") return;
   if (!type) {
-    localStorage.removeItem(STORAGE_KEY);
+    storage.remove(STORAGE_KEY);
     return;
   }
-  localStorage.setItem(STORAGE_KEY, type);
+  storage.set(STORAGE_KEY, type);
 }
 
 export function getPersistedConnector(): ConnectorType {
   if (typeof window === "undefined") return null;
-  const stored = localStorage.getItem(STORAGE_KEY);
+  const stored = storage.get(STORAGE_KEY);
   if (stored === "farcaster" || stored === "injected") return stored;
   return null;
 }

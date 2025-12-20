@@ -14,6 +14,7 @@ import { TERMS, TERMS_BY_DIFFICULTY } from "@/data/terms";
 import { Difficulty, GameState, SearchTerm } from "@/lib/types";
 import { GAME_CONTRACT_ABI, GAME_CONTRACT_ADDRESS } from "@/lib/gameContract";
 import { isValidTermEntry, preloadImages, shuffle, triggerHaptic } from "@/lib/utils";
+import { storage } from "@/lib/storage";
 import { sdk } from "@farcaster/miniapp-sdk";
 import { useChainId, useWriteContract } from "wagmi";
 import { base } from "wagmi/chains";
@@ -159,32 +160,20 @@ export default function Page() {
   };
 
   const persistHighScore = (next: number) => {
-    try {
-      localStorage.setItem(HIGH_SCORE_KEY, String(next));
-    } catch {
-      // no-op
-    }
+    storage.set(HIGH_SCORE_KEY, String(next));
   };
 
   const hydrateHighScore = () => {
-    try {
-      const stored = localStorage.getItem(HIGH_SCORE_KEY);
-      if (stored) setHighScore(Number(stored));
-      const easy = Number(localStorage.getItem(MODE_SCORE_KEY("easy")) ?? "0");
-      const medium = Number(localStorage.getItem(MODE_SCORE_KEY("medium")) ?? "0");
-      const hard = Number(localStorage.getItem(MODE_SCORE_KEY("hard")) ?? "0");
-      setModeHighScore({ easy, medium, hard });
-    } catch {
-      // ignore
-    }
+    const stored = storage.get(HIGH_SCORE_KEY);
+    if (stored) setHighScore(Number(stored));
+    const easy = Number(storage.get(MODE_SCORE_KEY("easy")) ?? "0");
+    const medium = Number(storage.get(MODE_SCORE_KEY("medium")) ?? "0");
+    const hard = Number(storage.get(MODE_SCORE_KEY("hard")) ?? "0");
+    setModeHighScore({ easy, medium, hard });
   };
 
   const persistModeHighScore = (mode: Difficulty, value: number) => {
-    try {
-      localStorage.setItem(MODE_SCORE_KEY(mode), String(value));
-    } catch {
-      // ignore
-    }
+    storage.set(MODE_SCORE_KEY(mode), String(value));
   };
 
   const refillPool = (mode: Difficulty, avoidId?: string) => {
