@@ -1,0 +1,16 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjYyNzY3NywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweEM5Q0M3QmFFODYxZkUwOTU1ODhBODhFNDlkNUQ2NTY2OEY4ZTFiNTUifQ",
+    "payload": "eyJkb21haW4iOiJoaWdoZXJsb3cudmVyY2VsLmFwcCJ9",
+    "signature": "JbNtTwnZADh9tgps4S7zkhqPrwgefFJNSrLFpyNTMAcqApNUAUO8UWwUp1BLzD8BdfRvOGIW9n13BsfNwYsj+xs="
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Higher / Lower",
+    "description": "Higher or Lower search game for Farcaster.",
+    "homeUrl": "https://higherlow.vercel.app",
+    "iconUrl": "https://higherlow.vercel.app/icon.svg",
+    "splashImageUrl": "https://higherlow.vercel.app/higherlow.jpg",
+    "splashBackgroundColor": "#0b0f19"
+  }
+}
