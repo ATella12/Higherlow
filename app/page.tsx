@@ -32,7 +32,7 @@ const MODE_SCORE_KEY = (mode: Difficulty) => `higherlower-highscore-${mode}`;
 const MODE_LABELS: Record<Difficulty, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 const DIFFICULTY_TO_PARAM: Record<Difficulty, number> = { easy: 0, medium: 1, hard: 2 };
 const BUILDER_CODE = "bc_gxgguiqu";
-const BUILDER_DATA_SUFFIX = Attribution.toDataSuffix([{ codes: [BUILDER_CODE] }]);
+const BUILDER_DATA_SUFFIX = Attribution.toDataSuffix({ codes: [BUILDER_CODE] });
 type TxAction = `select-${Difficulty}` | "play-again" | "change-difficulty" | null;
 
 const formatTxError = (err: unknown) => {
