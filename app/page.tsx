@@ -16,6 +16,7 @@ import { GAME_CONTRACT_ABI, GAME_CONTRACT_ADDRESS } from "@/lib/gameContract";
 import { isValidTermEntry, preloadImages, shuffle, triggerHaptic } from "@/lib/utils";
 import { storage } from "@/lib/storage";
 import { sdk } from "@farcaster/miniapp-sdk";
+import { Attribution } from "ox/erc8021";
 import { useChainId, useWriteContract } from "wagmi";
 import { base } from "wagmi/chains";
 import {
@@ -31,6 +32,7 @@ const MODE_SCORE_KEY = (mode: Difficulty) => `higherlower-highscore-${mode}`;
 const MODE_LABELS: Record<Difficulty, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 const DIFFICULTY_TO_PARAM: Record<Difficulty, number> = { easy: 0, medium: 1, hard: 2 };
 const BUILDER_CODE = "bc_gxgguiqu";
+const BUILDER_DATA_SUFFIX = Attribution.toDataSuffix([{ codes: [BUILDER_CODE] }]);
 type TxAction = `select-${Difficulty}` | "play-again" | "change-difficulty" | null;
 
 const formatTxError = (err: unknown) => {
@@ -123,6 +125,7 @@ export default function Page() {
   const withBuilderMetadata = <T extends Record<string, unknown>>(request: T) =>
     ({
       ...request,
+      dataSuffix: BUILDER_DATA_SUFFIX,
       builder: BUILDER_CODE,
       metadata: { ...(request as any).metadata, builderCode: BUILDER_CODE }
     } as T);
