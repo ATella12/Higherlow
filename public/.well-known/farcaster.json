@@ -7,10 +7,26 @@
   "miniapp": {
     "version": "1",
     "name": "Higher / Lower",
+    "subtitle": "Guess higher or lower search",
     "description": "Higher or Lower search game for Farcaster.",
+    "tagline": "Predict search popularity",
     "homeUrl": "https://higherlow.vercel.app",
-    "iconUrl": "https://higherlow.vercel.app/higherlow.jpg",
-    "splashImageUrl": "https://higherlow.vercel.app/higherlow.jpg",
-    "splashBackgroundColor": "#0b0f19"
+    "primaryCategory": "games",
+    "tags": ["games", "trivia", "search", "higherlower", "streak"],
+    "iconUrl": "https://higherlow.vercel.app/manifest/icon.png",
+    "splashImageUrl": "https://higherlow.vercel.app/manifest/splash.png",
+    "splashBackgroundColor": "#0b0f19",
+    "heroImageUrl": "https://higherlow.vercel.app/manifest/hero.png",
+    "ogTitle": "Higher or Lower",
+    "ogDescription": "A quick higher-or-lower game using search results on Farcaster.",
+    "ogImageUrl": "https://higherlow.vercel.app/manifest/og.png",
+    "imageUrl": "https://higherlow.vercel.app/manifest/image.png",
+    "screenshotUrls": [
+      "https://higherlow.vercel.app/manifest/screenshot1.png",
+      "https://higherlow.vercel.app/manifest/screenshot2.png",
+      "https://higherlow.vercel.app/manifest/screenshot3.png"
+    ],
+    "buttonTitle": "Play",
+    "castShareUrl": "https://higherlow.vercel.app/share"
   }
 }
