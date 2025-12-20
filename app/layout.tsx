@@ -10,18 +10,25 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Higher / Lower | Farcaster Mini App",
-  description: "Guess which search term trends higher with a fast, tactile higher/lower mini app.",
-  metadataBase: new URL("http://localhost:3000"),
+  title: "Higher or Lower",
+  description: "A quick higher-or-lower game using search results on Farcaster.",
+  metadataBase: new URL("https://higherlow.vercel.app"),
   icons: {
-    icon: "/higherlow.jpg",
-    shortcut: "/higherlow.jpg",
-    apple: "/higherlow.jpg"
+    icon: "/manifest/icon.png",
+    shortcut: "/manifest/icon.png",
+    apple: "/manifest/icon.png"
   },
   openGraph: {
-    title: "Higher / Lower | Farcaster Mini App",
-    description: "Guess which search term trends higher with a fast, tactile higher/lower mini app.",
-    images: ["/higherlow.jpg"]
+    title: "Higher or Lower",
+    description: "A quick higher-or-lower game using search results on Farcaster.",
+    url: "https://higherlow.vercel.app/share",
+    images: ["https://higherlow.vercel.app/manifest/og.png"]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Higher or Lower",
+    description: "A quick higher-or-lower game using search results on Farcaster.",
+    images: ["https://higherlow.vercel.app/manifest/og.png"]
   }
 };
 
