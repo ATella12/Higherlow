@@ -19,15 +19,15 @@ export interface Eip1193Provider {
 function adaptToEip1193(provider: any): Eip1193Provider {
   const viemLike: ViemEip1193Provider = {
     request: (args: any) => provider.request(args),
-    on: provider.on
-      ? (event: string, listener: (...args: any[]) => void) => provider.on(event as any, listener as any)
-      : undefined,
-    removeListener: provider.removeListener
-      ? (event: string, listener: (...args: any[]) => void) =>
-          provider.removeListener(event as any, listener as any)
-      : provider.off
-        ? (event: string, listener: (...args: any[]) => void) => provider.off(event as any, listener as any)
-        : undefined
+    on: ((event: any, listener: any) => {
+      if (typeof provider.on === "function") return provider.on(event, listener);
+      // no-op if unsupported
+    }) as ViemEip1193Provider["on"],
+    removeListener: ((event: any, listener: any) => {
+      if (typeof provider.removeListener === "function") return provider.removeListener(event, listener);
+      if (typeof provider.off === "function") return provider.off(event, listener);
+      // no-op if unsupported
+    }) as ViemEip1193Provider["removeListener"]
   };
   return viemLike as unknown as Eip1193Provider;
 }
