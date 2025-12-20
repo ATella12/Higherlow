@@ -47,7 +47,8 @@ export const metadata: Metadata = {
   },
   other: {
     "fc:miniapp": FC_EMBED_ROOT,
-    "fc:frame": FC_EMBED_ROOT
+    "fc:frame": FC_EMBED_ROOT,
+    "base:app_id": "6946dee0d19763ca26ddc725"
   }
 };
 
