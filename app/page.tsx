@@ -127,6 +127,9 @@ export default function Page() {
       metadata: { ...(request as any).metadata, builderCode: BUILDER_CODE }
     } as T);
 
+  const asSelectArgs = (difficulty: number, nonce: bigint): [number, bigint] => [difficulty, nonce];
+  const asNonceArgs = (nonce: bigint): [bigint] => [nonce];
+
   const writeSelectMode = async (difficultyValue: number, nonce: bigint) => {
     const difficultyLabel = Object.entries(DIFFICULTY_TO_PARAM).find(([, v]) => v === difficultyValue)?.[0] as
       | Difficulty
@@ -138,7 +141,7 @@ export default function Page() {
           address: GAME_CONTRACT_ADDRESS,
           abi: GAME_CONTRACT_ABI,
           functionName: "selectMode",
-          args: [difficultyValue, nonce],
+          args: asSelectArgs(difficultyValue, nonce),
           chainId: base.id
         })
       );
@@ -152,7 +155,7 @@ export default function Page() {
           address: GAME_CONTRACT_ADDRESS,
           abi: GAME_CONTRACT_ABI,
           functionName: "playAgain",
-          args: [nonce],
+          args: asNonceArgs(nonce),
           chainId: base.id
         })
       );
@@ -166,7 +169,7 @@ export default function Page() {
           address: GAME_CONTRACT_ADDRESS,
           abi: GAME_CONTRACT_ABI,
           functionName: "changeDifficulty",
-          args: [nonce],
+          args: asNonceArgs(nonce),
           chainId: base.id
         })
       );
