@@ -30,6 +30,7 @@ const HIGH_SCORE_KEY = "higherlower-highscore";
 const MODE_SCORE_KEY = (mode: Difficulty) => `higherlower-highscore-${mode}`;
 const MODE_LABELS: Record<Difficulty, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 const DIFFICULTY_TO_PARAM: Record<Difficulty, number> = { easy: 0, medium: 1, hard: 2 };
+const BUILDER_CODE = "bc_gxgguiqu";
 type TxAction = `select-${Difficulty}` | "play-again" | "change-difficulty" | null;
 
 const formatTxError = (err: unknown) => {
@@ -119,43 +120,56 @@ export default function Page() {
     }
   };
 
+  const withBuilderMetadata = <T extends Record<string, unknown>>(request: T) =>
+    ({
+      ...request,
+      builder: BUILDER_CODE,
+      metadata: { ...(request as any).metadata, builderCode: BUILDER_CODE }
+    } as T);
+
   const writeSelectMode = async (difficultyValue: number, nonce: bigint) => {
     const difficultyLabel = Object.entries(DIFFICULTY_TO_PARAM).find(([, v]) => v === difficultyValue)?.[0] as
       | Difficulty
       | undefined;
     const action: TxAction = difficultyLabel ? (`select-${difficultyLabel}` as TxAction) : null;
     return runWrite(action, async () => {
-      await writeContractAsync({
-        address: GAME_CONTRACT_ADDRESS,
-        abi: GAME_CONTRACT_ABI,
-        functionName: "selectMode",
-        args: [difficultyValue, nonce],
-        chainId: base.id
-      });
+      await writeContractAsync(
+        withBuilderMetadata({
+          address: GAME_CONTRACT_ADDRESS,
+          abi: GAME_CONTRACT_ABI,
+          functionName: "selectMode",
+          args: [difficultyValue, nonce],
+          chainId: base.id
+        })
+      );
     });
   };
 
   const writePlayAgain = async (nonce: bigint) => {
     return runWrite("play-again", async () => {
-      await writeContractAsync({
-        address: GAME_CONTRACT_ADDRESS,
-        abi: GAME_CONTRACT_ABI,
-        functionName: "playAgain",
-        args: [nonce],
-        chainId: base.id
-      });
+      await writeContractAsync(
+        withBuilderMetadata({
+          address: GAME_CONTRACT_ADDRESS,
+          abi: GAME_CONTRACT_ABI,
+          functionName: "playAgain",
+          args: [nonce],
+          chainId: base.id
+        })
+      );
     });
   };
 
   const writeChangeDifficulty = async (nonce: bigint) => {
     return runWrite("change-difficulty", async () => {
-      await writeContractAsync({
-        address: GAME_CONTRACT_ADDRESS,
-        abi: GAME_CONTRACT_ABI,
-        functionName: "changeDifficulty",
-        args: [nonce],
-        chainId: base.id
-      });
+      await writeContractAsync(
+        withBuilderMetadata({
+          address: GAME_CONTRACT_ADDRESS,
+          abi: GAME_CONTRACT_ABI,
+          functionName: "changeDifficulty",
+          args: [nonce],
+          chainId: base.id
+        })
+      );
     });
   };
 
