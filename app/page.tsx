@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { GameContainer } from "@/components/GameContainer";
 import { StatBar } from "@/components/StatBar";
 import { TermCard } from "@/components/TermCard";
@@ -381,6 +382,11 @@ export default function Page() {
 
   return (
     <GameContainer>
+      <div className="menu-row">
+        <Link href="/menu" className="menu-link">
+          Menu
+        </Link>
+      </div>
       <StatBar
         score={state === "selectingDifficulty" ? 0 : score}
         highScore={highScore}
